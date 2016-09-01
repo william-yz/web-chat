@@ -10,3 +10,14 @@ export async function login(user) {
       body: JSON.stringify(user)
     });
 }
+
+export async function register(user) {
+  return xFetch('http://localhost:3000/api/register',{
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(user)
+    });
+}

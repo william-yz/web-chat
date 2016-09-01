@@ -1,6 +1,8 @@
 import React, { Component, PropTypes } from 'react';
+import Cookies from 'js-cookie'
 import {Tabs} from 'antd'
 
+import socketio from '../socketio'
 
 import ChatPanel from './ChatPanel'
 
@@ -10,15 +12,14 @@ const TabPane = Tabs.TabPane;
 
 class Content extends React.Component {
   static defaultProps = {
-    activeChats : [{name : 'William', id: '1'},{name : 'Mace', id: '2'}]
+    activeChats : []
   };
 
   constructor(props) {
     super(props)
-    console.log('here')
+    socketio.emit('login', Cookies.get('user'))
     this.state = {
-      activeKey: props.activeChats[0].id,
-      activeChats: props.activeChats
+      activeKey: props.activeChats[0] && props.activeChats[0].id
     }
   }
 
@@ -29,16 +30,17 @@ class Content extends React.Component {
   remove(targetKey) {
     let activeKey = this.state.activeKey;
     let lastIndex;
-    this.state.activeChats.forEach((pane, i) => {
+    this.props.activeChats.forEach((pane, i) => {
       if (pane.id === targetKey) {
-        lastIndex = i - 1;
+        lastIndex = i - 1
       }
     });
-    const activeChats = this.state.activeChats.filter(pane => pane.id !== targetKey);
+    const activeChats = this.props.activeChats.filter(pane => pane.id !== targetKey);
     if (lastIndex >= 0 && activeKey === targetKey) {
-      activeKey = activeChats[lastIndex].id;
+      activeKey = activeChats[lastIndex].id
     }
-    this.setState({ activeChats:activeChats, activeKey: targetKey});
+    this.props.removeActiveChat(targetKey)
+    this.setState({activeKey: targetKey})
   }
 
   render() {
@@ -52,10 +54,10 @@ class Content extends React.Component {
             onEdit={this.onEdit.bind(this)}
             onChange={activeKey => this.setState({activeKey})}
           >
-            {this.state.activeChats.map(activeChat => {
+            {this.props.activeChats.map(activeChat => {
               return (
                 <TabPane
-                  tab={activeChat.name}
+                  tab={activeChat.username}
                   key={activeChat.id}
                 >
                   <ChatPanel name={activeChat.name}/>

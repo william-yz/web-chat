@@ -26,9 +26,9 @@ function initRouters(app) {
   })
 }
 
-function init(app) {
+function init(app, io) {
   initMiddleware(app)
-  initRouters(app)
+  initRouters(app, io)
 }
 module.exports = {
   initMiddleware,
