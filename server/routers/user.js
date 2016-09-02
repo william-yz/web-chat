@@ -1,26 +1,24 @@
 'use strict'
-const uuid = require('node-uuid')
 const storage = require('../storage')
+const User = require('mongoose').model('User')
 
 module.exports = function (app, io) {
-  app.route('/api/login')
+  app.route('/backend/login')
       .post((req, res) => {
-        const user = storage.findUser(req.body)
-        res.json({
-          success: true,
-          response: user[0].id
-        })
+        User.find(req.body)
+            .then(result => {
+              console.log(result)
+              res.json(result._id)
+            })
       })
 
-  app.route('/api/register')
+  app.route('/backend/register')
       .post((req, res) => {
-        const id = uuid.v1()
-        req.body.id = id
-        storage.saveUser(req.body)
-        res.json({
-          success: true,
-          response: id
-        })
+        new User(req.body).save()
+          .then(result => {
+            console.log(result)
+            res.json(result._id)
+          })
       })
 
 }

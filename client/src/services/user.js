@@ -1,7 +1,7 @@
 import xFetch from './xFetch';
 
 export async function login(user) {
-  return xFetch('http://localhost:3000/api/login',{
+  return xFetch('http://localhost:3000/backend/login'+JSON.parse(),{
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -12,7 +12,7 @@ export async function login(user) {
 }
 
 export async function register(user) {
-  return xFetch('http://localhost:3000/api/register',{
+  return xFetch('http://localhost:3000/backend/register',{
       method: 'POST',
       headers: {
         'Accept': 'application/json',

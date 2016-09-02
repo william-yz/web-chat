@@ -12,8 +12,10 @@
   "dependencies": {
     "body-parser": "^1.15.2",
     "express": "^4.14.0",
+    "express-restify-mongoose": "^4.1.1",
     "glob": "^7.0.6",
     "lodash": "^4.15.0",
+    "mongoose": "^4.5.10",
     "node-uuid": "^1.4.7",
     "socket.io": "^1.4.8"
   }
